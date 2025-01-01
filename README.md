@@ -21,5 +21,3 @@
 ### Run Frontend
     
     make start-frontend
-
-    

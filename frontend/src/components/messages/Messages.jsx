@@ -36,7 +36,7 @@ const Messages = () => {
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messageRef}>
           {isLoading ? (
-            <div className="d-flex justify-content-center align-items-center h-100">
+            <div className="d-flex justify-content-center align-items-center h-100 p-4">
               <Spinner animation="border" role="status" />
             </div>
           ) : (

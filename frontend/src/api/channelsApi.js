@@ -4,10 +4,21 @@ import { API_CHANNELS, getApiRoute } from './apiPath';
 
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: getApiRoute(API_CHANNELS),
-    prepareHeaders,
-  }),
+  baseQuery: async (args, api, extraOptions) => {
+    const result = await fetchBaseQuery({
+      baseUrl: getApiRoute(API_CHANNELS),
+      prepareHeaders,
+    })(args, api, extraOptions);
+
+    // Обработка статуса 401
+    if (result.error && result.error.status === 401) {
+      // Перенаправление на страницу авторизации
+      api.dispatch({ type: 'auth/logout' }); // Если у вас есть действие логаута
+      window.location.href = '/login'; // Или используйте navigate из useNavigate
+    }
+
+    return result;
+  },
   tagTypes: ['Channels', 'Messages'],
   endpoints: (builder) => ({
     getChannels: builder.query({

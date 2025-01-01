@@ -1,5 +1,5 @@
 import {
-  Nav, Col, Button, Spinner,
+  Nav, Col, Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { PlusSquare } from 'react-bootstrap-icons';
@@ -7,15 +7,14 @@ import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { openModal } from '../../store/slices/modalsSlice';
 import { MODAL_TYPES } from '../modals/constants';
-import ModalComponent from '../modals/ModalComponent';
 import ChannelItem from './ChannelsItem';
 
 const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { data: channels = [], isLoading } = useGetChannelsQuery();
+  const { data: channels = [] } = useGetChannelsQuery();
 
-  const handleOpenModal = () => {
+  const onOpenModal = () => {
     dispatch(openModal({ type: MODAL_TYPES.ADD }));
   };
 
@@ -27,7 +26,7 @@ const Channels = () => {
           type="button"
           variant="group-vertical"
           className="p-0 text-primary"
-          onClick={handleOpenModal}
+          onClick={onOpenModal}
         >
           <PlusSquare className="fs-5" />
           <span className="visually-hidden">{t('chat.plus')}</span>
@@ -35,11 +34,7 @@ const Channels = () => {
       </div>
 
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        {isLoading ? (
-          <div className="d-flex justify-content-center align-items-center h-100">
-            <Spinner animation="border" role="status" />
-          </div>
-        ) : (
+        { (
           channels.map((channel) => (
             <ChannelItem
               key={channel.id}
@@ -48,7 +43,6 @@ const Channels = () => {
           ))
         )}
       </Nav>
-      <ModalComponent />
     </Col>
   );
 };
