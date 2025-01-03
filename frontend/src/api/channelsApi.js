@@ -10,11 +10,8 @@ export const channelsApi = createApi({
       prepareHeaders,
     })(args, api, extraOptions);
 
-    // Обработка статуса 401
     if (result.error && result.error.status === 401) {
-      // Перенаправление на страницу авторизации
-      api.dispatch({ type: 'auth/logout' }); // Если у вас есть действие логаута
-      window.location.href = '/login'; // Или используйте navigate из useNavigate
+      window.location.href = '/login';
     }
 
     return result;

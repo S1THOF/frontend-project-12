@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Col, Spinner } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
+import LoadingSpinner from '../LoadingSpinner';
 import { useGetMessagesQuery } from '../../api/messagesApi';
 import { selectCurrentChannel } from '../../store/slices/channelsSlice';
 import MessageForm from './MessageForm';
@@ -37,7 +38,7 @@ const Messages = () => {
         <div id="messages-box" className="chat-messages overflow-auto px-5" ref={messageRef}>
           {isLoading ? (
             <div className="d-flex justify-content-center align-items-center h-100 p-4">
-              <Spinner animation="border" role="status" />
+              <LoadingSpinner />
             </div>
           ) : (
             channelMessages.map((message) => (

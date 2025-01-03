@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useGetChannelsQuery } from '../../api/channelsApi';
 import { openModal } from '../../store/slices/modalsSlice';
 import { MODAL_TYPES } from '../modals/constants';
+import ModalComponent from '../modals/index';
 import ChannelItem from './ChannelsItem';
 
 const Channels = () => {
@@ -14,7 +15,7 @@ const Channels = () => {
   const { t } = useTranslation();
   const { data: channels = [] } = useGetChannelsQuery();
 
-  const onOpenModal = () => {
+  const handleOpenModal = () => {
     dispatch(openModal({ type: MODAL_TYPES.ADD }));
   };
 
@@ -26,7 +27,7 @@ const Channels = () => {
           type="button"
           variant="group-vertical"
           className="p-0 text-primary"
-          onClick={onOpenModal}
+          onClick={handleOpenModal}
         >
           <PlusSquare className="fs-5" />
           <span className="visually-hidden">{t('chat.plus')}</span>
@@ -34,15 +35,16 @@ const Channels = () => {
       </div>
 
       <Nav className="flex-column nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        { (
+        {
           channels.map((channel) => (
             <ChannelItem
               key={channel.id}
               channelItem={channel}
             />
           ))
-        )}
+        }
       </Nav>
+      <ModalComponent />
     </Col>
   );
 };
